@@ -4,69 +4,81 @@ import random
 
 a = 6
 
-# Prints initial welcome screen
-
-def intro():
-    print("\nWelcome to the world's greatest game, NUMBER WARS!!!")
-    print("If you can guess the number I am thinking of in", a, "guesses,")
-    print('then tomorrow, you will find the love of your life!\n')
-
-
 # Generates random number
 
 magicNumber = random.randrange(1, 100)
 
 
-# All The Good Stuff
-
-def numGame(magicNumber):
+def intro():
+    print("\nWelcome to the world's greatest game, NUMBER WARS!!!")
+    print("If you can guess the number I am thinking of in", a, "guesses,")
+    print('then tomorrow, you will find the love of your life!\n')
     print("I'm thinking of a number between 1 and 100! ")
-    guess = int(input("May the odds be ever in your favor...\n"))
+    print("May the odds be ever in your favor...")
+
+
+def guess_again(guess):
+    if guess > magicNumber:
+        print("Too high, Try again")
+    elif guess < magicNumber:
+        print("Too low, try again!")
+
+
+def last_guess_win(guessnum):
+    print("\nI'm not going to lie, I was pretty worried for a second..")
+    print("You have barely skidded by with exactly", guessnum, "guesses!")
+    print("\nMy number was", magicNumber)
+    print("\nCongratulations, you will not die alone!")
+
+
+def win_before_last_guess(guessnum):
+    print("\nOMG!!! YOU HAVE DONE THE IMPOSSIBLE")
+    print("You have guessed my number in", guessnum, "tries!")
+    print("\nMy number was", magicNumber)
+    print("\nCongratulations, you will not die alone!")
+
+
+def you_lose():
+    print("\nDamn.. I REALLY hate to be the one to break this news to you..")
+    print("But in all fairness, you knew the risk going into this...")
+    print("\nMy number was", magicNumber)
+    print("\nYou will never find love... :( ")
+
+
+def main():
+    intro()
     guessnum = 0
 
     # Sets counter that determines success or failure
 
     for i in range(1, a + 1, 1):
+        guessnum = guessnum + 1
+        guess = int(input("\n--> "))
 
         # You won on the last guess
 
         if guess is magicNumber and i is a:
-            guessnum = guessnum + 1
-            print("\nI'm not going to lie, I was pretty worried for a second..")
-            print("You have barely skidded by with exactly", guessnum, "guesses!")
-            print("\nMy number was", magicNumber)
-            print("\nCongratulations, you will not die alone!")
+            last_guess_win(guessnum)
             break
-
         # You won before the last guess
 
         elif guess is magicNumber:
-            guessnum = guessnum + 1
-            print("\nOMG!!! YOU HAVE DONE THE IMPOSSIBLE")
-            print("You have guessed my number in", guessnum, "tries!")
-            print("\nMy number was", magicNumber)
-            print("\nCongratulations, you will not die alone!")
+            win_before_last_guess(guessnum)
             break
-
         # You guessed incorrectly, but have additional guesses
 
         elif guess is not magicNumber and i < a:
-            if guess > magicNumber:
-                guess = int(input("Too high, try again!\n"))
-            elif guess < magicNumber:
-                guess = int(input("Too low, try again!\n"))
-            guessnum = guessnum + 1
+            guess_again(guess)
 
         # You guessed incorrectly, and you are out of guesses
 
         else:
-            print("\nDamn.. I REALLY hate to be the one to break this news to you..")
-            print("But in all fairness, you knew the risk going into this...")
-            print("\nMy number was", magicNumber)
-            print("\nYou will never find love... :( ")
+            you_lose()
+
+    exit(0)
 
 
 # Calls all functions
 
-intro()
-numGame(magicNumber)
+if __name__ == '__main__':
+    main()
